@@ -1,0 +1,7 @@
+run "convert input.png -resize 320x200! -dither FloydSteinberg -colors 256 -depth 8 -compress none BMP3:image.bmp"
+then converter.py image.bmp image.bin
+and then:
+nasm -f bin boot.asm -o boot.bin
+nasm -f bin main.asm -o main.bin
+cat boot.bin main.bin image.bin > boot.img
+qemu-system-x86_64 -drive format=raw,file=boot.img,if=floppy -vga std
